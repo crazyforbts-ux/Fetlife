@@ -497,9 +497,6 @@
   <footer>❧ &nbsp; Concurso de relatos · Pluma Anónima &nbsp; ❧</footer>
 
   <script>
-    // ── Init EmailJS ──
-    emailjs.init(CONFIG.emailjs_public_key);
-
     // ── Generador de código ──
     function generarCodigo() {
       const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -559,6 +556,7 @@
       statusMsg.textContent = '✦ Enviando tu relato de forma anónima…';
 
       try {
+        emailjs.init(CONFIG.emailjs_public_key);
         await emailjs.send(CONFIG.emailjs_service_id, CONFIG.emailjs_template_id, {
           to_email : CONFIG.email_destino,
           codigo   : codigo,
