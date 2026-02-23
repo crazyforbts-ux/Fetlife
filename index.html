@@ -11,40 +11,23 @@
   <style>
     :root {
       --ink:        #f0dddd;
-      --paper:      #080808;
+      --paper:      #000000;
       --gold:       #cc1a1a;
       --gold-light: #e63030;
       --red-wax:    #aa1010;
       --muted:      #885555;
       --line:       #2a0d0d;
+      --symbol:     #c9a84c;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background-color: var(--paper);
-      background-image:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 27px,
-          rgba(180,20,20,0.05) 27px,
-          rgba(180,20,20,0.05) 28px
-        );
       font-family: 'EB Garamond', Georgia, serif;
       color: var(--ink);
       min-height: 100vh;
       padding: 0 1rem 4rem;
-    }
-
-    /* ── GRAIN OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
     }
 
     /* ── HEADER ── */
@@ -57,7 +40,7 @@
 
     .ornament {
       font-size: 1.4rem;
-      color: var(--gold);
+      color: var(--symbol);
       letter-spacing: 0.5em;
       display: block;
       margin-bottom: 1rem;
@@ -97,9 +80,9 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      background: linear-gradient(to right, transparent, var(--symbol), transparent);
     }
-    .divider-icon { color: var(--gold); font-size: 1.2rem; }
+    .divider-icon { color: var(--symbol); font-size: 1.2rem; }
 
     /* ── RULES ── */
     .rules-card {
@@ -120,7 +103,7 @@
     .rule-number {
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: var(--gold);
+      color: var(--symbol);
       line-height: 1;
     }
     .rule-label {
@@ -296,14 +279,14 @@
     .wax-seal {
       width: 72px;
       height: 72px;
-      background: var(--gold);
+      background: var(--symbol);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.5rem;
       font-size: 2rem;
-      box-shadow: 0 4px 28px rgba(204,26,26,0.55);
+      box-shadow: 0 4px 28px rgba(201,168,76,0.45);
       animation: sealPop 0.5s 0.2s ease both;
     }
 
@@ -331,9 +314,9 @@
       font-size: 2rem;
       font-weight: bold;
       letter-spacing: 0.15em;
-      color: var(--gold);
-      background: rgba(204,26,26,0.08);
-      border: 1px dashed var(--gold);
+      color: var(--symbol);
+      background: rgba(201,168,76,0.07);
+      border: 1px dashed var(--symbol);
       padding: 0.75rem 2rem;
       border-radius: 2px;
       display: inline-block;
@@ -400,7 +383,7 @@
       margin: 4rem auto 0;
       text-align: center;
       font-size: 0.8rem;
-      color: #2a0d0d;
+      color: #5a4a1a;
     }
 
     @media (max-width: 500px) {
@@ -427,15 +410,15 @@
 
   <header>
     <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
-    <h1>Pluma <em>Anónima</em></h1>
-    <p class="subtitle">Concurso de relatos cortos · Edición abierta</p>
+    <h1>Pluma <em>Perversa</em></h1>
+    <p class="subtitle">Concurso de relatos cortos · Edición invierno 2026</p>
     <div class="divider"><span class="divider-icon">❧</span></div>
   </header>
 
   <div class="rules-card">
     <div class="rule">
       <div class="rule-number">400</div>
-      <div class="rule-label">palabras máximo</div>
+      <div class="rule-label">Maximo de palabras</div>
     </div>
     <div class="rule">
       <div class="rule-number">✦</div>
@@ -455,7 +438,7 @@
         <textarea
           id="storyText"
           name="storyText"
-          placeholder="Érase una vez…&#10;&#10;Tu historia comienza aquí. Sin nombre, sin firma. Solo las palabras."
+          placeholder="En un oscuro rincón…&#10;&#10;Tu historia comienza aquí. Sin nombre, sin firma. Solo las palabras."
           spellcheck="true"
           lang="es"
         ></textarea>
