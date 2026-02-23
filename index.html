@@ -10,14 +10,13 @@
 
   <style>
     :root {
-      --ink: #1a1410;
-      --paper: #f5f0e8;
-      --aged: #e8dfc8;
-      --gold: #b8860b;
-      --gold-light: #d4a843;
-      --red-wax: #8b2020;
-      --muted: #7a6a55;
-      --line: #c8baa0;
+      --ink:        #f0dddd;
+      --paper:      #080808;
+      --gold:       #cc1a1a;
+      --gold-light: #e63030;
+      --red-wax:    #aa1010;
+      --muted:      #885555;
+      --line:       #2a0d0d;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,8 +28,8 @@
           0deg,
           transparent,
           transparent 27px,
-          rgba(184,134,11,0.08) 27px,
-          rgba(184,134,11,0.08) 28px
+          rgba(180,20,20,0.05) 27px,
+          rgba(180,20,20,0.05) 28px
         );
       font-family: 'EB Garamond', Georgia, serif;
       color: var(--ink);
@@ -43,7 +42,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 100;
     }
@@ -54,7 +53,6 @@
       margin: 0 auto;
       padding: 4rem 0 2rem;
       text-align: center;
-      position: relative;
     }
 
     .ornament {
@@ -107,7 +105,7 @@
     .rules-card {
       max-width: 720px;
       margin: 0 auto 2.5rem;
-      background: rgba(255,255,255,0.4);
+      background: rgba(180,20,20,0.04);
       border: 1px solid var(--line);
       border-radius: 2px;
       padding: 1.5rem 2rem;
@@ -117,9 +115,8 @@
       animation: slideUp 0.8s 0.4s ease both;
     }
 
-    .rule {
-      text-align: center;
-    }
+    .rule { text-align: center; }
+
     .rule-number {
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
@@ -150,10 +147,6 @@
       margin-bottom: 0.75rem;
     }
 
-    .textarea-wrapper {
-      position: relative;
-    }
-
     textarea {
       width: 100%;
       min-height: 380px;
@@ -162,7 +155,7 @@
       font-size: 1.125rem;
       line-height: 1.8;
       color: var(--ink);
-      background: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.03);
       border: 1px solid var(--line);
       border-radius: 2px;
       resize: vertical;
@@ -173,12 +166,12 @@
 
     textarea:focus {
       border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(184,134,11,0.1), inset 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 0 0 3px rgba(204,26,26,0.12), inset 0 1px 4px rgba(0,0,0,0.4);
     }
 
     textarea::placeholder {
       color: var(--muted);
-      opacity: 0.6;
+      opacity: 0.5;
       font-style: italic;
     }
 
@@ -195,8 +188,8 @@
       color: var(--muted);
       transition: color 0.3s;
     }
-    .word-counter.ok { color: #2d7a3a; }
-    .word-counter.over { color: var(--red-wax); font-weight: 500; }
+    .word-counter.ok   { color: #8aaa60; }
+    .word-counter.over { color: #ff4444; font-weight: 500; }
 
     .progress-bar {
       width: 180px;
@@ -211,7 +204,7 @@
       transition: width 0.3s, background-color 0.3s;
       border-radius: 2px;
     }
-    .progress-fill.over { background: var(--red-wax); }
+    .progress-fill.over { background: #ff4444; }
 
     /* ── SUBMIT ── */
     .submit-row {
@@ -235,15 +228,15 @@
       align-items: center;
       gap: 0.6rem;
       padding: 0.9rem 2.5rem;
-      background: var(--ink);
-      color: var(--paper);
+      background: var(--gold);
+      color: #fff;
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 1.1rem;
       letter-spacing: 0.05em;
       border: none;
       border-radius: 2px;
       cursor: pointer;
-      transition: background 0.25s, transform 0.15s;
+      transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
       position: relative;
       overflow: hidden;
     }
@@ -252,16 +245,17 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.07));
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.08));
     }
 
     button[type="submit"]:hover:not(:disabled) {
-      background: var(--gold);
+      background: var(--gold-light);
       transform: translateY(-1px);
+      box-shadow: 0 4px 18px rgba(204,26,26,0.45);
     }
 
     button[type="submit"]:disabled {
-      opacity: 0.5;
+      opacity: 0.35;
       cursor: not-allowed;
     }
 
@@ -269,8 +263,8 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(26,20,16,0.7);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -286,42 +280,42 @@
     }
 
     .modal {
-      background: var(--paper);
-      border: 1px solid var(--line);
+      background: #0d0303;
+      border: 1px solid #3a0d0d;
       max-width: 480px;
       width: 100%;
       padding: 3rem 2.5rem;
       text-align: center;
       transform: translateY(20px);
       transition: transform 0.4s;
-      position: relative;
     }
     .modal-overlay.visible .modal {
       transform: translateY(0);
     }
 
     .wax-seal {
-      width: 70px;
-      height: 70px;
-      background: var(--red-wax);
+      width: 72px;
+      height: 72px;
+      background: var(--gold);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.5rem;
       font-size: 2rem;
-      box-shadow: 0 4px 20px rgba(139,32,32,0.4);
+      box-shadow: 0 4px 28px rgba(204,26,26,0.55);
       animation: sealPop 0.5s 0.2s ease both;
     }
 
     @keyframes sealPop {
       from { transform: scale(0) rotate(-20deg); opacity: 0; }
-      to { transform: scale(1) rotate(0deg); opacity: 1; }
+      to   { transform: scale(1) rotate(0deg);   opacity: 1; }
     }
 
     .modal h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
+      color: var(--ink);
       margin-bottom: 0.75rem;
     }
 
@@ -338,7 +332,7 @@
       font-weight: bold;
       letter-spacing: 0.15em;
       color: var(--gold);
-      background: rgba(184,134,11,0.1);
+      background: rgba(204,26,26,0.08);
       border: 1px dashed var(--gold);
       padding: 0.75rem 2rem;
       border-radius: 2px;
@@ -356,7 +350,7 @@
       margin-top: 2rem;
       padding: 0.7rem 2rem;
       background: transparent;
-      border: 1px solid var(--line);
+      border: 1px solid #3a0d0d;
       font-family: 'EB Garamond', serif;
       font-size: 1rem;
       color: var(--muted);
@@ -369,7 +363,7 @@
       color: var(--gold);
     }
 
-    /* ── ERROR / STATUS ── */
+    /* ── STATUS ── */
     .status-msg {
       margin-top: 1rem;
       padding: 0.75rem 1rem;
@@ -379,45 +373,25 @@
     }
     .status-msg.error {
       display: block;
-      background: rgba(139,32,32,0.08);
-      border: 1px solid rgba(139,32,32,0.3);
-      color: var(--red-wax);
+      background: rgba(200,20,20,0.08);
+      border: 1px solid rgba(200,20,20,0.3);
+      color: #ff6060;
     }
     .status-msg.sending {
       display: block;
-      background: rgba(184,134,11,0.08);
-      border: 1px solid rgba(184,134,11,0.3);
+      background: rgba(204,26,26,0.06);
+      border: 1px solid rgba(204,26,26,0.25);
       color: var(--gold);
     }
-
-    /* ── CONFIG BANNER ── */
-    .config-banner {
-      max-width: 720px;
-      margin: 0 auto 2rem;
-      padding: 1rem 1.5rem;
-      background: rgba(139,32,32,0.07);
-      border: 1px solid rgba(139,32,32,0.25);
-      border-radius: 2px;
-      font-size: 0.9rem;
-      color: var(--red-wax);
-    }
-    .config-banner strong { font-weight: 600; }
-    .config-banner code {
-      background: rgba(139,32,32,0.1);
-      padding: 0.1em 0.4em;
-      border-radius: 2px;
-      font-size: 0.85em;
-    }
-    .config-banner.hidden { display: none; }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
+      to   { opacity: 1; }
     }
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── FOOTER ── */
@@ -426,7 +400,7 @@
       margin: 4rem auto 0;
       text-align: center;
       font-size: 0.8rem;
-      color: var(--line);
+      color: #2a0d0d;
     }
 
     @media (max-width: 500px) {
@@ -439,29 +413,17 @@
 <body>
 
   <!-- ══════════════════════════════════════════
-       ⚙️  CONFIGURACIÓN — EDITA ESTAS 3 LÍNEAS
+       ⚙️  CONFIGURACIÓN
   ══════════════════════════════════════════ -->
   <script>
     const CONFIG = {
-      emailjs_public_key:  "wO7s6zzemBQs5S9UM",      // ← tu Public Key de EmailJS
-      emailjs_service_id:  "service_6i8vm2o",      // ← ID del servicio de correo
-      emailjs_template_id: "template_uncqgvc",     // ← ID de la plantilla de email
-      email_destino:       "crazyforbts@gmail.com",  // ← correo del organizador
+      emailjs_public_key:  "wO7s6zzemBQs5S9UM",
+      emailjs_service_id:  "service_6i8vm2o",
+      emailjs_template_id: "template_uncqgvc",
+      email_destino:       "crazyforbts@gmail.com",
       max_palabras: 400,
     };
   </script>
-  <!-- ══════════════════════════════════════════ -->
-
-
-  <!-- Config banner (visible mientras no esté configurado) -->
-  <div class="config-banner" id="configBanner">
-    <strong>⚙️ Configuración pendiente:</strong> Edita las primeras líneas del script con tus claves de <strong>EmailJS</strong>.
-    Pasos: 1) Crea cuenta en <a href="https://www.emailjs.com" target="_blank">emailjs.com</a> (gratis hasta 200 emails/mes)
-    · 2) Añade un servicio Gmail/SMTP
-    · 3) Crea una plantilla y añade las variables <code>{{codigo}}</code>, <code>{{relato}}</code>, <code>{{palabras}}</code>
-    · 4) Pega tus claves en el bloque CONFIG de arriba.
-  </div>
-
 
   <header>
     <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
@@ -534,19 +496,9 @@
 
   <footer>❧ &nbsp; Concurso de relatos · Pluma Anónima &nbsp; ❧</footer>
 
-
   <script>
     // ── Init EmailJS ──
     emailjs.init(CONFIG.emailjs_public_key);
-
-    // ── Config banner ──
-    const isConfigured =
-      CONFIG.emailjs_public_key !== "wO7s6zzemBQs5S9UM" &&
-      CONFIG.emailjs_service_id !== "service_6i8vm2o" &&
-      CONFIG.emailjs_template_id !== "template_uncqgvc";
-    if (isConfigured) {
-      document.getElementById('configBanner').classList.add('hidden');
-    }
 
     // ── Generador de código ──
     function generarCodigo() {
@@ -586,15 +538,15 @@
     });
 
     // ── Envío ──
-    const form       = document.getElementById('storyForm');
-    const statusMsg  = document.getElementById('statusMsg');
-    const modal      = document.getElementById('successModal');
+    const form        = document.getElementById('storyForm');
+    const statusMsg   = document.getElementById('statusMsg');
+    const modal       = document.getElementById('successModal');
     const codeDisplay = document.getElementById('codeDisplay');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const relato  = textarea.value.trim();
+      const relato   = textarea.value.trim();
       const palabras = contarPalabras(relato);
 
       if (palabras < 10 || palabras > MAX) return;
@@ -605,13 +557,6 @@
       submitBtn.disabled = true;
       statusMsg.className = 'status-msg sending';
       statusMsg.textContent = '✦ Enviando tu relato de forma anónima…';
-
-      if (!isConfigured) {
-        // Demo mode: simula envío
-        await new Promise(r => setTimeout(r, 1500));
-        mostrarExito(codigo);
-        return;
-      }
 
       try {
         await emailjs.send(CONFIG.emailjs_service_id, CONFIG.emailjs_template_id, {
@@ -625,7 +570,7 @@
       } catch (err) {
         console.error(err);
         statusMsg.className = 'status-msg error';
-        statusMsg.textContent = '✗ Error al enviar. Verifica la configuración de EmailJS o inténtalo de nuevo.';
+        statusMsg.textContent = '✗ Error al enviar. Comprueba la consola del navegador para más detalles.';
         submitBtn.disabled = false;
       }
     });
@@ -634,8 +579,6 @@
       statusMsg.className = 'status-msg';
       codeDisplay.textContent = codigo;
       modal.classList.add('visible');
-
-      // Limpiar formulario
       textarea.value = '';
       textarea.dispatchEvent(new Event('input'));
     }
