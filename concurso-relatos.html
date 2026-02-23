@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concurso de Relatos · Pluma Anónima</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    :root {
+      --ink: #1a1410;
+      --paper: #f5f0e8;
+      --aged: #e8dfc8;
+      --gold: #b8860b;
+      --gold-light: #d4a843;
+      --red-wax: #8b2020;
+      --muted: #7a6a55;
+      --line: #c8baa0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--paper);
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 27px,
+          rgba(184,134,11,0.08) 27px,
+          rgba(184,134,11,0.08) 28px
+        );
+      font-family: 'EB Garamond', Georgia, serif;
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 0 1rem 4rem;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* ── HEADER ── */
+    header {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 0 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .ornament {
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 0.5em;
+      display: block;
+      margin-bottom: 1rem;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .subtitle {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-style: italic;
+      animation: slideUp 0.8s 0.15s ease both;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      animation: fadeIn 1s 0.3s ease both;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .divider-icon { color: var(--gold); font-size: 1.2rem; }
+
+    /* ── RULES ── */
+    .rules-card {
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+      background: rgba(255,255,255,0.4);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+      animation: slideUp 0.8s 0.4s ease both;
+    }
+
+    .rule {
+      text-align: center;
+    }
+    .rule-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .rule-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FORM ── */
+    .form-container {
+      max-width: 720px;
+      margin: 0 auto;
+      animation: slideUp 0.8s 0.5s ease both;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .textarea-wrapper {
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 380px;
+      padding: 1.5rem;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--ink);
+      background: rgba(255,255,255,0.55);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      caret-color: var(--gold);
+    }
+
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,134,11,0.1), inset 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    textarea::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    /* ── WORD COUNTER ── */
+    .counter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    .word-counter {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+    .word-counter.ok { color: #2d7a3a; }
+    .word-counter.over { color: var(--red-wax); font-weight: 500; }
+
+    .progress-bar {
+      width: 180px;
+      height: 3px;
+      background: var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      transition: width 0.3s, background-color 0.3s;
+      border-radius: 2px;
+    }
+    .progress-fill.over { background: var(--red-wax); }
+
+    /* ── SUBMIT ── */
+    .submit-row {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .anon-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    button[type="submit"] {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 2.5rem;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button[type="submit"]::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.07));
+    }
+
+    button[type="submit"]:hover:not(:disabled) {
+      background: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ── SUCCESS MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26,20,16,0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      padding: 1rem;
+    }
+    .modal-overlay.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      max-width: 480px;
+      width: 100%;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.4s;
+      position: relative;
+    }
+    .modal-overlay.visible .modal {
+      transform: translateY(0);
+    }
+
+    .wax-seal {
+      width: 70px;
+      height: 70px;
+      background: var(--red-wax);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      box-shadow: 0 4px 20px rgba(139,32,32,0.4);
+      animation: sealPop 0.5s 0.2s ease both;
+    }
+
+    @keyframes sealPop {
+      from { transform: scale(0) rotate(-20deg); opacity: 0; }
+      to { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .code-display {
+      font-family: 'Courier New', monospace;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      background: rgba(184,134,11,0.1);
+      border: 1px dashed var(--gold);
+      padding: 0.75rem 2rem;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .modal-close {
+      margin-top: 2rem;
+      padding: 0.7rem 2rem;
+      background: transparent;
+      border: 1px solid var(--line);
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: var(--muted);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .modal-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── ERROR / STATUS ── */
+    .status-msg {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 2px;
+      font-size: 0.95rem;
+      display: none;
+    }
+    .status-msg.error {
+      display: block;
+      background: rgba(139,32,32,0.08);
+      border: 1px solid rgba(139,32,32,0.3);
+      color: var(--red-wax);
+    }
+    .status-msg.sending {
+      display: block;
+      background: rgba(184,134,11,0.08);
+      border: 1px solid rgba(184,134,11,0.3);
+      color: var(--gold);
+    }
+
+    /* ── CONFIG BANNER ── */
+    .config-banner {
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      padding: 1rem 1.5rem;
+      background: rgba(139,32,32,0.07);
+      border: 1px solid rgba(139,32,32,0.25);
+      border-radius: 2px;
+      font-size: 0.9rem;
+      color: var(--red-wax);
+    }
+    .config-banner strong { font-weight: 600; }
+    .config-banner code {
+      background: rgba(139,32,32,0.1);
+      padding: 0.1em 0.4em;
+      border-radius: 2px;
+      font-size: 0.85em;
+    }
+    .config-banner.hidden { display: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 720px;
+      margin: 4rem auto 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--line);
+    }
+
+    @media (max-width: 500px) {
+      .rules-card { grid-template-columns: 1fr; }
+      .submit-row { flex-direction: column; align-items: stretch; }
+      button[type="submit"] { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       ⚙️  CONFIGURACIÓN — EDITA ESTAS 3 LÍNEAS
+  ══════════════════════════════════════════ -->
+  <script>
+    const CONFIG = {
+      emailjs_public_key:  "TU_PUBLIC_KEY",      // ← tu Public Key de EmailJS
+      emailjs_service_id:  "TU_SERVICE_ID",      // ← ID del servicio de correo
+      emailjs_template_id: "TU_TEMPLATE_ID",     // ← ID de la plantilla de email
+      email_destino:       "concurso@tudominio.com",  // ← correo del organizador
+      max_palabras: 400,
+    };
+  </script>
+  <!-- ══════════════════════════════════════════ -->
+
+
+  <!-- Config banner (visible mientras no esté configurado) -->
+  <div class="config-banner" id="configBanner">
+    <strong>⚙️ Configuración pendiente:</strong> Edita las primeras líneas del script con tus claves de <strong>EmailJS</strong>.
+    Pasos: 1) Crea cuenta en <a href="https://www.emailjs.com" target="_blank">emailjs.com</a> (gratis hasta 200 emails/mes)
+    · 2) Añade un servicio Gmail/SMTP
+    · 3) Crea una plantilla y añade las variables <code>{{codigo}}</code>, <code>{{relato}}</code>, <code>{{palabras}}</code>
+    · 4) Pega tus claves en el bloque CONFIG de arriba.
+  </div>
+
+
+  <header>
+    <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+    <h1>Pluma <em>Anónima</em></h1>
+    <p class="subtitle">Concurso de relatos cortos · Edición abierta</p>
+    <div class="divider"><span class="divider-icon">❧</span></div>
+  </header>
+
+  <div class="rules-card">
+    <div class="rule">
+      <div class="rule-number">400</div>
+      <div class="rule-label">palabras máximo</div>
+    </div>
+    <div class="rule">
+      <div class="rule-number">✦</div>
+      <div class="rule-label">envío anónimo</div>
+    </div>
+    <div class="rule">
+      <div class="rule-number">#</div>
+      <div class="rule-label">código único</div>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <form id="storyForm">
+      <label class="form-label" for="storyText">Escribe o pega tu relato aquí</label>
+
+      <div class="textarea-wrapper">
+        <textarea
+          id="storyText"
+          name="storyText"
+          placeholder="Érase una vez…&#10;&#10;Tu historia comienza aquí. Sin nombre, sin firma. Solo las palabras."
+          spellcheck="true"
+          lang="es"
+        ></textarea>
+      </div>
+
+      <div class="counter-bar">
+        <span class="word-counter" id="wordCounter">0 / 400 palabras</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <p class="anon-note">
+          🔒 Tu relato se enviará sin datos personales. Recibirás un código único como resguardo.
+        </p>
+        <button type="submit" id="submitBtn" disabled>
+          <span>Enviar relato</span>
+          <span>→</span>
+        </button>
+      </div>
+
+      <div class="status-msg" id="statusMsg"></div>
+    </form>
+  </div>
+
+  <!-- MODAL DE ÉXITO -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal">
+      <div class="wax-seal">✦</div>
+      <h2>¡Relato enviado!</h2>
+      <p>Tu historia ha llegado a su destino.<br>Guarda tu código de participación:</p>
+      <div class="code-display" id="codeDisplay">—</div>
+      <p class="modal-note">Este código te identifica de forma anónima en el concurso.<br>Consérvalo para conocer el resultado.</p>
+      <button class="modal-close" id="modalClose">Cerrar</button>
+    </div>
+  </div>
+
+  <footer>❧ &nbsp; Concurso de relatos · Pluma Anónima &nbsp; ❧</footer>
+
+
+  <script>
+    // ── Init EmailJS ──
+    emailjs.init(CONFIG.emailjs_public_key);
+
+    // ── Config banner ──
+    const isConfigured =
+      CONFIG.emailjs_public_key !== "TU_PUBLIC_KEY" &&
+      CONFIG.emailjs_service_id !== "TU_SERVICE_ID" &&
+      CONFIG.emailjs_template_id !== "TU_TEMPLATE_ID";
+    if (isConfigured) {
+      document.getElementById('configBanner').classList.add('hidden');
+    }
+
+    // ── Generador de código ──
+    function generarCodigo() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let code = '';
+      for (let i = 0; i < 8; i++) {
+        if (i === 4) code += '-';
+        code += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return code;
+    }
+
+    // ── Contador de palabras ──
+    function contarPalabras(texto) {
+      return texto.trim() === '' ? 0 : texto.trim().split(/\s+/).length;
+    }
+
+    const textarea     = document.getElementById('storyText');
+    const wordCounter  = document.getElementById('wordCounter');
+    const progressFill = document.getElementById('progressFill');
+    const submitBtn    = document.getElementById('submitBtn');
+    const MAX          = CONFIG.max_palabras;
+
+    textarea.addEventListener('input', () => {
+      const palabras = contarPalabras(textarea.value);
+      const pct      = Math.min((palabras / MAX) * 100, 100);
+      const over     = palabras > MAX;
+
+      wordCounter.textContent = `${palabras} / ${MAX} palabras`;
+      wordCounter.classList.toggle('ok',   palabras >= 50 && !over);
+      wordCounter.classList.toggle('over', over);
+
+      progressFill.style.width = pct + '%';
+      progressFill.classList.toggle('over', over);
+
+      submitBtn.disabled = palabras < 10 || over;
+    });
+
+    // ── Envío ──
+    const form       = document.getElementById('storyForm');
+    const statusMsg  = document.getElementById('statusMsg');
+    const modal      = document.getElementById('successModal');
+    const codeDisplay = document.getElementById('codeDisplay');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const relato  = textarea.value.trim();
+      const palabras = contarPalabras(relato);
+
+      if (palabras < 10 || palabras > MAX) return;
+
+      const codigo = generarCodigo();
+      const ahora  = new Date().toLocaleString('es-ES');
+
+      submitBtn.disabled = true;
+      statusMsg.className = 'status-msg sending';
+      statusMsg.textContent = '✦ Enviando tu relato de forma anónima…';
+
+      if (!isConfigured) {
+        // Demo mode: simula envío
+        await new Promise(r => setTimeout(r, 1500));
+        mostrarExito(codigo);
+        return;
+      }
+
+      try {
+        await emailjs.send(CONFIG.emailjs_service_id, CONFIG.emailjs_template_id, {
+          to_email : CONFIG.email_destino,
+          codigo   : codigo,
+          relato   : relato,
+          palabras : palabras,
+          fecha    : ahora,
+        });
+        mostrarExito(codigo);
+      } catch (err) {
+        console.error(err);
+        statusMsg.className = 'status-msg error';
+        statusMsg.textContent = '✗ Error al enviar. Verifica la configuración de EmailJS o inténtalo de nuevo.';
+        submitBtn.disabled = false;
+      }
+    });
+
+    function mostrarExito(codigo) {
+      statusMsg.className = 'status-msg';
+      codeDisplay.textContent = codigo;
+      modal.classList.add('visible');
+
+      // Limpiar formulario
+      textarea.value = '';
+      textarea.dispatchEvent(new Event('input'));
+    }
+
+    document.getElementById('modalClose').addEventListener('click', () => {
+      modal.classList.remove('visible');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('visible');
+    });
+  </script>
+</body>
+</html>
